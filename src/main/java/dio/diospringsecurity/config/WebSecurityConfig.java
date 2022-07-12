@@ -1,7 +1,9 @@
 package dio.diospringsecurity.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,8 +20,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SecurityDatabaseService securityService;
 
+
     @Autowired
-    public void globalUserDetailsService(AuthenticationManagerBuilder auth) throws Exception{
+    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception{
         auth.userDetailsService(securityService).passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
     /*
@@ -36,18 +39,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }*/
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        super.configure(web);
-    }
-
-
-    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers("/h2-console").permitAll()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/managers").hasAnyRole("managers")
-                .antMatchers("/users").hasAnyRole("users", "managers")
+                .antMatchers("/managers").hasAnyRole("MANAGERS")
+                .antMatchers("/users").hasAnyRole("USERS", "MANAGERS")
                 .anyRequest().authenticated().and().httpBasic();
     }
 }
