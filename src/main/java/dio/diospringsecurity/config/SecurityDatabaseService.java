@@ -1,5 +1,7 @@
-package dio.diospringsecurity;
+package dio.diospringsecurity.config;
 
+import dio.diospringsecurity.model.User;
+import dio.diospringsecurity.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

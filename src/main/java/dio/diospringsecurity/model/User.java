@@ -1,4 +1,4 @@
-package dio.diospringsecurity;
+package dio.diospringsecurity.model;
 
 import javax.persistence.*;
 import java.util.List;
